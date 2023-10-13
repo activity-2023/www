@@ -1,0 +1,24 @@
+{
+    "name": "activity/webapp",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Activity\\App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dania OULKADI",
+            "email": "dania.oulkadi@etu.cyu.fr"
+        },
+        {
+            "name": "Thomas REMY",
+            "email": "thomas.remy@etu.cyu.fr"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "slim/slim": "^4.12"
+    }
+}
