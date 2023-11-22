@@ -7,19 +7,17 @@
 </head>
 <body>
     <header>
-      <nav class="navbar navbar-inverse navbar-static-top">
-          <div class="container">
-              <div class="nav navbar-nav">
-                  <li>
-                      <a href="/">Accueil</a>
-                  </li>
-                  <li>
-                      <a href="/account">Mes informations</a>
-                  </li>
-                  <li>
-                      <a href="/register">Inscription</a>
-                  </li>
-              </div>
+      <nav class="navbar navbar-expand-lg bg-body-tertiary " style="background-color: #e3f2fd;">
+          <div class="container-fluid">
+              <a class="navbar-brand" href="/">Activity</a>
+               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                      <li class="nav-item">
+                          <a class="nav-link" href="/events">New Events</a>
+                      </li>
+                      <li class="nav-item d-flex">
+                          <a class="nav-link" href="/connexion">Connexion</a>
+                      </li>
+                  </ul>
           </div>
       </nav>
     </header>
@@ -27,7 +25,6 @@
         <?=$content?>
     </main>
     <footer>
-        <span>DANIA & THOMAS</span>
     </footer>
 </body>
 </html>
