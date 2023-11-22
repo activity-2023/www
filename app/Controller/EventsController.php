@@ -1,16 +1,14 @@
 <?php
-namespace App\Controller;
+
+namespace  App\Controller;
 
 use Core\Controller\AbstractController;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class AccountController extends AbstractController{
+class EventsController extends AbstractController{
     public function index(Request $request, Response $response): Response{
-
-        $response->getBody()->write($this->render('account'));
+        $response->getBody()->write($this->render('events'));
         return $response;
     }
-
-//    public function getAccountInfo(string $login);
 }
