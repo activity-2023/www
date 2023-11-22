@@ -36,4 +36,8 @@ class PersonRepository extends EntityRepository
     public function getPerson(int $personId):Person{
         return $this->find($personId);
     }
+
+    public function getPersonByName(string $name):Person|null{
+        return $this->findOneBy(['personLname'=>$name]);
+    }
 }

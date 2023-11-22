@@ -30,7 +30,7 @@ class UserRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function findUser(int $id){
-        return $this->find($id);
+    public function getUserByLogin(string $login):User{
+        return $this->findOneBy(['userLogin'=>$login]);
     }
 }
