@@ -8,7 +8,7 @@ use Core\Controller\AbstractController;
 
 
 class HomeController extends AbstractController{
-    public function index(Request $request, Response $response ): Response{
+    public function index(Request $request, Response $response, array $args = [] ): Response{
         $response->getBody()->write($this->render('home'));
         return $response;
     }
