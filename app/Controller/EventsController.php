@@ -14,28 +14,31 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class EventsController extends AbstractController{
     public function index(Request $request, Response $response, array $args = []): Response{
+        if(!isset($_SESSION['connexion']) || $_SESSION['account_type']!="staff"){
+            header("Location: /connexion");
+            exit();
+        }
         $activityId = $args['id'];
-        $response->getBody()->write($this->render('eventcreation', compact('activityId')));
+        $activityName = $args['name'];
+        $response->getBody()->write($this->render('eventcreation', compact('activityId',
+            'activityName')));
         return $response;
     }
 
     public function post(Request $request, Response $response, array $args = []): Response{
         $info = $request->getParsedBody();
-        $activityId = $info['activityId'];
         $eventDate = new \DateTime($info['eventdate']);
         $eventStartTime = new \DateTime($info['startTime']);
         $eventduration = new \DateTime($info['duration']);
         $eventMaxParticipant = $info['maxParticipants'];
 
         $endTime = $this->calculEndTime($eventStartTime, $eventduration);
-
         $entityManager = $this->getEntityManager();
 
         Type::addType('roomType', 'Data\enums\roomType');
         $queryBuilder = $entityManager->createQueryBuilder();
         $queryb = $entityManager->createQueryBuilder();
 
-        // toute les room occupées
         $queryBuilder->select('room')
             ->from(Event::class, 'event')
             ->join(Room::class, 'room', 'WITH', 'room.roomId = event.roomId')
@@ -64,7 +67,7 @@ class EventsController extends AbstractController{
             ->setMaxResults(5);
 
         $freeRoom = $queryb->getQuery()->getResult();
-        $rooms = $this->getRoomInfo($freeRoom, $entityManager);
+        $rooms = $this->getRoomInfo($freeRoom);
 
         $response->getBody()->write($this->render('roomChoice', compact('rooms','info')));
         return $response;
@@ -72,14 +75,14 @@ class EventsController extends AbstractController{
 
     public function calculEndTime(\DateTime $startTime, \DateTime $duration): \DateTime{
         $dateref = new \DateTime('00:00:00');
-        $newDateTime = clone $startTime;
+        $newDateTime =  $startTime;
         return $newDateTime->add($dateref->diff($duration));
     }
 
-    public function getRoomInfo($freeRooms,EntityManager $entityManager){
+    public function getRoomInfo($freeRooms){
         $info_rooms = array();
         foreach ($freeRooms as $room){
-            $qb = $entityManager->createQueryBuilder();
+            $qb = $this->getEntityManager()->createQueryBuilder();
             $buildingquery = $qb->select('building')
                 ->from(Building::class, 'building')
                 ->where('building.buildingId = :idBuilding')
@@ -87,6 +90,7 @@ class EventsController extends AbstractController{
                 ->setMaxResults(1)
                 ->getQuery();
             $building = $buildingquery->getArrayResult()[0];
+
             $room_info = [
                 'id'=>$room->getBuildingId(),
                 'name'=>$room->getRoomName(),
@@ -145,6 +149,5 @@ class EventsController extends AbstractController{
         $maxplaces = $entityManager->getRepository(Event::class)->getEvent($event_id)->getEventMaxParticipant();
         return $maxplaces - $total;
     }
-
 
 }

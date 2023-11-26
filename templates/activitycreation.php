@@ -1,11 +1,3 @@
-<?php
-
-//if(!isset($_SESSION['connexion'])){
-//    header("Location: /connexion");
-//    exit();
-//}
-
-?>
 <h1>Créer Une activité</h1>
 <section>
     <p>Renseigner les informations de votre activité pour l'ajouter aux propositions générales </p>

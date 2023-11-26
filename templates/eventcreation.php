@@ -1,14 +1,6 @@
-<?php
-
-if (!isset($_SESSION['connexion'])) {
-    header("Location: /connexion");
-    exit();
-}
-
-?>
 <h1>Créer Un événement</h1>
 <section>
-    <h2>Activité concernée : <?=$activityId?></h2>
+    <h2>Activité concernée : <?=$activityName?></h2>
     <p>Renseigner les informations d'événement pour l'ajouter aux propositions générales </p>
     <div>
         <form action="/event" method="post">

@@ -4,6 +4,7 @@ namespace App\Controller;
 use Core\Controller\AbstractController;
 use Data\Activity;
 use Data\Event;
+use Data\Organize;
 use Data\Subscribe;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -23,31 +24,14 @@ class RoomChoiceController extends AbstractController{
 
         $entityManager = $this->getEntityManager();
         $eventrep = $entityManager->getRepository(Event::class);
-        $eventrep->addEvent( $id_activity, $id_room, $event_date, $event_start_time, $event_duration, $event_max_participant);
+        $event_id = $eventrep->addEvent( $id_activity, $id_room, $event_date, $event_start_time, $event_duration, $event_max_participant);
+        $organizeReP = $entityManager->getRepository(Organize::class);
+        $organizeReP->organize($_SESSION['connexion'], $event_id);
 
-        header("Location: /activity/".$id_activity);
+        header("Location: /activity/id=".$id_activity);
         exit();
 
     }
 
-    public function getChildren(){
-
-    }
-    public function getAssociatedActivities(): array|null{
-        $id = $_SESSION['connexion'];
-        $entityManager = $this->getEntityManager();
-        $queryBuilder = $entityManager->createQueryBuilder();
-
-        $queryBuilder->select('A')
-            ->from(Activity::class, 'A')
-            ->join(Subscribe::class, 's', 'WITH', 'A.activityId = s.activityId')
-            ->where('s.personId = :personId')
-            ->orderBy('s.suscriptionDate', 'DESC')
-            ->setParameter('personId',$id )
-            ->setMaxResults( 4 );
-        $query = $queryBuilder->getQuery();
-        return $query->getResult();
-
-    }
 
 }
