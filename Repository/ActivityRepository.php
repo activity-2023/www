@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class ActivityRepository extends EntityRepository
 {
-    public function addActivity(string $name, string $description, int $minAge, float $price){
+    public function addActivity(string $name, string $description, int $minAge, float $price): int{
         $activity = new Activity();
         $activity->setName($name);
         $activity->setDescription($description);
@@ -21,6 +21,7 @@ class ActivityRepository extends EntityRepository
         $activity->setPrice($price);
         $this->getEntityManager()->persist($activity);
         $this->getEntityManager()->flush();
+        return $activity->getActivityId();
     }
     public function getActivity(int $activityId) : Activity|null{
         return $this->find($activityId);

@@ -14,7 +14,7 @@
                             <li class="list-group-item">Prix d'inscription : <?=$activity_info['price']?></li>
                         </ul>
                         <div style="padding:1em; ">
-                            <a href="/activity/<?=$activity_info['id']?>" class="btn btn-primary" >Découvrir plus</a>
+                            <a href="/activity/id=<?=$activity_info['id']?>" class="btn btn-primary" >Découvrir plus</a>
                         </div>
                     </div>
                 </div>

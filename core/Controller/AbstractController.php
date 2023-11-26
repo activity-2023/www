@@ -54,9 +54,9 @@ abstract  class AbstractController {
         $activityName = $activityRep->getActivity($event->getActivityId())->getName();
         return [
             'id'=>$event->getEventId(),
-            'date'=> date_format($event->getEventDate(), "Y/m/d"),
-            'start_time'=>date_format($event->getEventStartTime(), "h:m"),
-            'duration'=>date_format($event->getEventDuration(), "h:m"),
+            'date'=> $event->getEventDate()->format('H:i'),
+            'start_time'=>$event->getEventStartTime()->format('H:i'),
+            'duration'=>$event->getEventDuration()->format('H:i'),
             'max_participant'=>$event->getEventMaxParticipant(),
             'activity_name'=>$activityName
         ];

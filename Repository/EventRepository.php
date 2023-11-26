@@ -15,7 +15,7 @@ use Doctrine\ORM\EntityRepository;
  */
 class EventRepository extends EntityRepository
 {
-    public function addEvent(int $activityId, int $roomId, string $date, string $startTime, string $duration, int $nbMax){
+    public function addEvent(int $activityId, int $roomId, string $date, string $startTime, string $duration, int $nbMax): int{
         $event = new Event();
         $event->setActivityId($activityId);
         $event->setRoomId($roomId);
@@ -25,10 +25,19 @@ class EventRepository extends EntityRepository
         $event->setEventStartTime(new \DateTime($startTime));
         $this->getEntityManager()->persist($event);
         $this->getEntityManager()->flush();
+        return $event->getEventId();
     }
 
     public function getEvent(int $eventId): Event|null{
         return $this->find($eventId);
+    }
+
+    public function deleteEvent(int $eventId){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->delete(Event::class, 'e')
+            ->where('e.eventId= :id')
+            ->setParameter('id', $eventId);
+        $qb->getQuery()->getResult();
     }
 
 }

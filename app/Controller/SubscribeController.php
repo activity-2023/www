@@ -21,14 +21,10 @@ class SubscribeController extends AbstractController{
         $data = $subscribe->getSubscribtion($personId, $activityId);
         if(is_null($data)){
             $subscribe->addSubscribtion($personId, $activityId);
+        }
 
-        }
-        else{
-            echo 'votre compte est déjà inscrit';
-        }
         header("Location:/account");
         exit();
-        return $response;
     }
 
 }
