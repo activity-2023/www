@@ -19,7 +19,25 @@ class OrganizeRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function getOrganize(int $staffId, int $eventId): Organize{
+    public function getOrganize(int $staffId, int $eventId): Organize|null{
         return $this->find(array("staffId"=>$staffId, "eventId"=>$eventId));
+    }
+    public function deleteOrganize(int $staffId, int $eventId){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->delete(Organize::class, 'o')
+            ->where('o.eventId = :eventId')
+            ->andWhere('o.staffId = :staffId')
+            ->setParameter('staffId', $staffId)
+            ->setParameter('eventId', $eventId);
+        $qb->getQuery()->getResult();
+    }
+
+    public function getAllOrganize(int $eventId){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select( 'o')
+            ->from(Organize::class, 'o')
+            ->where('o.eventId = :eventId')
+            ->setParameter('eventId', $eventId);
+       return $qb->getQuery()->getResult();
     }
 }

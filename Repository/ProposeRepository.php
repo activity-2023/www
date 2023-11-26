@@ -19,7 +19,17 @@ class ProposeRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function getProposition(int $staffId, int $activityId): Propose{
+    public function getProposition(int $staffId, int $activityId): Propose|null{
         return $this->find(array("staffId"=>$staffId, "activityId"=>$activityId));
+    }
+
+    public function deleteProposition(int $staffId, int $activityId){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->delete(Propose::class, 'p')
+            ->where('p.activityId = :activityId')
+            ->andWhere('p.staffId = :staffId')
+            ->setParameter('staffId', $staffId)
+            ->setParameter('activityId', $activityId);
+        $qb->getQuery()->getResult();
     }
 }
