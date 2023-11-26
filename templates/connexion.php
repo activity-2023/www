@@ -1,9 +1,3 @@
-<?php
-    if(isset($_SESSION['connexion'])){
-        header("Location: /account");
-        exit();
-    }
-?>
 <h1>Me connecter</h1>
 <section>
     <?php if(isset($login)):?>
@@ -40,4 +34,5 @@
         <span>Vous avez pas encore de compte?</span>
         <a class="navbar-brand" href="/register">Créer un compte</a>
     </div>
+
 </section>

@@ -38,6 +38,14 @@ class InternalStaffRepository extends EntityRepository
     }
 
     public function getInternalStaff(int $intStaffId): InternalStaff|null{
-        $this->find($intStaffId);
+        return $this->find($intStaffId);
+    }
+    public function getInternalStaffByHrNumber(int $hr){
+        $queryb = $this->getEntityManager()->createQueryBuilder();
+        $queryb->select('staff')
+            ->from(InternalStaff::class, 'staff')
+            ->where('staff.intStaffHrNumber = :hr')
+            ->setParameter('hr', $hr);
+        return $queryb->getQuery()->getResult();
     }
 }

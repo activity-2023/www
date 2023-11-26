@@ -26,7 +26,7 @@ class ParentsRepository extends EntityRepository
         $this->getEntityManager()->persist($parent);
         $this->getEntityManager()->flush();
     }
-    public function getParent(int $parentId):Parents{
+    public function getParent(int $parentId):Parents|null{
         return $this->find($parentId);
     }
 }

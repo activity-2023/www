@@ -1,4 +1,3 @@
-
 <section style="padding: 2%;">
     <h1>Mon compte</h1>
     <div style="align-items: center; text-align: center; padding: 2em">
@@ -15,15 +14,22 @@
                 <li class="list-group-item">Nom : <?=$nom?></li>
                 <li class="list-group-item">Prénom : <?=$prenom?></li>
                 <li class="list-group-item">Date de naissance : <?=date_format($birth,"Y/m/d")?></li>
-                <li class="list-group-item">Genre : <?=$gender?>
-                <li class="list-group-item">Votre adresse : <?=$parent_info['address']['st-num'].', '.
-                    $parent_info['address']['st-name'].', '. $parent_info['address']['zip'].' '. $parent_info['address']['city']?></li>
-                <li class="list-group-item"> Job : <?=$parent_info['job']?>
+                <li class="list-group-item">Genre : <?=$gender?></li>
+                <li class="list-group-item">Votre adresse : <?=$account['address']['st-num'].', '.$account['address']['st-name'].', '.
+                    $account['address']['zip'].' '. $account['address']['city']?></li>
+                <?php if($_SESSION['account_type']=="user"): ?>
+                    <li class="list-group-item"> Job : <?=$account['job']?></li>
+                <?php endif;?>
+                <?php if($_SESSION['account_type']=="staff"): ?>
+                <li class="list-group-item">Type de contrat : <?=$account['contract_type']?></li>
+                <li class="list-group-item">Votre numéro RH : <?=$account['hr_number']?></li>
+                <li class="list-group-item">Fonction : <?=$account['fonction']?></li>
+                <?php endif; ?>
+
             </ul>
         </div>
     </div>
     <?php if(isset($activities) && !empty($activities)): ?>
-    <div class="card" style="width: 80%; padding:2em;margin-top: 2em; align-items: center; text-align: center; ">
         <h5>Activités associées à ce compte</h5>
         <div class="row" style="padding: 1em;">
         <?php foreach ($activities as $activity ):
@@ -38,22 +44,18 @@
                             <li class="list-group-item">Prix d'inscription : <?=$activity_info['price']?></li>
                         </ul>
                         <div style="padding:1em; ">
-                            <a href="/activity/<?=$activity_info['id']?>" class="btn btn-primary" >Voir les détails</a>
+                            <a href="/activity/id=<?=$activity_info['id']?>" class="btn btn-primary" >Voir les détails</a>
                         </div>
                     </div>
                 </div>
             </div>
-
         <?php endforeach; ?>
         </div>
-        <?php endif;?>
-        <div style="padding:2em; align-items: center">
-            <a href="/activitycreation" class="btn btn-primary" >Créer une activité</a>
-        </div>
-    </div>
+    <?php endif;?>
+
 
      <?php if(isset($events) && !empty($events)): ?>
-        <h5>événements à l'approche</h5>
+        <h5>Événements à l'approche</h5>
         <div class="row" style="padding: 1em;">
             <?php foreach ($events as $event ):
                 $event_info = $this->getEventInfo($event);?>
@@ -68,13 +70,31 @@
                                 <li class="list-group-item">Nombre maximum de participants: <?=$event_info['max_participant']?></li>
                             </ul>
                             <div style="padding:1em; ">
-                                <a href="/inscription/<?=$event_info['id']?>" class="btn btn-primary" >Annuler</a>
+                                <?php if($_SESSION['account_type']=="staff") :?>
+                                    <a href="/cancel_event/id=<?=$event_info['id']?>" class="btn btn-primary" >Annuler</a>
+                                <?php endif;?>
+                                <?php if($_SESSION['account_type']=="user") :?>
+                                    <a href="/unsubscribe_event/id=<?=$event_info['id']?>" class="btn btn-primary" >Se désinscrire</a>
+                                <?php endif;?>
                             </div>
                         </div>
-
                     </div>
                 </div>
             <?php endforeach; ?>
+        </div>
+    <?php endif;?>
+
+    <?php if($_SESSION['account_type']=="staff") :?>
+        <div style="display: flex">
+            <div style="padding:2em; align-items: center">
+                <a href="/activitycreation" class="btn btn-primary" >Créer une activité</a>
+            </div>
+            <div style="padding:2em; align-items: center">
+                <a href="/user_account_creation" class="btn btn-primary" >Créer un compte utilisateur</a>
+            </div>
+            <div style="padding:2em; align-items: center">
+                <a href="/staff_account_creation" class="btn btn-primary" >Créer un compte professionnel</a>
+            </div>
         </div>
     <?php endif;?>
 
@@ -82,8 +102,8 @@
         <h5>Informations sur le compte</h5>
         <div class="card-body">
             <ul class="list-group">
-                <li class="list-group-item">Mail : <?=$parent_info['mail']?></li>
-                <li class="list-group-item">Numéro de téléphone : <?=$parent_info['tel']?></li>
+                <li class="list-group-item">Mail : <?=$account['mail']?></li>
+                <li class="list-group-item">Numéro de téléphone : <?=$account['tel']?></li>
                 <li class="list-group-item">login : <?=$login?></li>
             </ul>
         </div>
