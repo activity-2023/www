@@ -19,7 +19,7 @@ use \Repository\PersonRepository;
 class Person{
     #[Id]
     #[Column(name:'person_id')]
-    #[GeneratedValue(strategy: 'SEQUENCE')]
+    #[GeneratedValue(strategy: 'IDENTITY')]
     private int $personId;
     #[Column(name:'person_fname')]
     private string $personFname;
@@ -29,6 +29,19 @@ class Person{
     private $personGender;
     #[Column(name:'person_birth_date')]
     private  \DateTime $personBirthDate;
+
+    #[Column(name: 'person_access_pin_hash', type: 'string')]
+    private string $personAccessPinHash;
+
+    public function getPersonAccessPinHash(): string
+    {
+        return $this->personAccessPinHash;
+    }
+
+    public function setPersonAccessPinHash(string $personAccessPinHash): void
+    {
+        $this->personAccessPinHash = $personAccessPinHash;
+    }
 
     #[OneToMany(mappedBy: 'personId', targetEntity: BuildingLogs::class)]
     private Collection $personLogsB;

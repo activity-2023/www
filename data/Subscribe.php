@@ -22,12 +22,23 @@ class Subscribe{
     #[ManyToOne(targetEntity: Activity::class, inversedBy: 'subscribes')]
     private int $activityId;
 
+
+    #[Column(name: 'suscription_date', type: 'date')]
+    private \DateTime $suscriptionDate;
+
+
+
     public function __construct(int $personId, int $activityId)
     {
         $this->personId = $personId;
         $this->activityId = $activityId;
+        $this->suscriptionDate = new \DateTime();
     }
 
+    public function getSubsriptionDate(): \DateTime
+    {
+        return $this->suscriptionDate;
+    }
     public function getPersonId(): int
     {
         return $this->personId;

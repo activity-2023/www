@@ -16,7 +16,7 @@ use \Repository\ActivityRepository;
 class Activity {
     #[Id]
     #[Column(name: 'activity_id', type: 'integer')]
-    #[GeneratedValue(strategy: "SEQUENCE")]
+    #[GeneratedValue(strategy: "IDENTITY")]
     private int $activityId;
 
     #[Column(name: 'activity_name', type: 'string')]

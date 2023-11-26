@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping\Table;
 use \Repository\UserRepository;
 
 #[Entity(repositoryClass: UserRepository::class)]
-#[Table(name: 'user')]
+#[Table(name: 'users')]
 class User {
     #[Id]
     #[Column(name: 'user_id', type: 'integer')]
@@ -17,10 +17,10 @@ class User {
     private int $userId;
     #[Column(name: 'user_login', type: 'string')]
     private string $userLogin;
-    #[Column(name: 'user_passwd_hash', type: 'string')]
+    #[Column(name: 'user_password_hash', type: 'string')]
     private string $userPasswdHash;
 
-    #[Column(name: 'user_passwd_salt', type: 'string')]
+    #[Column(name: 'user_password_salt', type: 'string')]
     private string $userPasswdSalt;
 
     public function __construct(int $userId)

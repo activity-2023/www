@@ -30,7 +30,7 @@ class Event{
     #[Column(name: 'event_duration', type: 'time')]
     private \DateTime $eventDuration;
 
-    #[Column(name: 'event_max_participant', type: 'integer')]
+    #[Column(name: 'event_max_participants', type: 'integer')]
     private int $eventMaxParticipant;
 
     #[ManyToOne(targetEntity: Room::class, inversedBy: 'events')]

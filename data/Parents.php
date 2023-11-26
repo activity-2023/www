@@ -28,7 +28,7 @@ class Parents{
     private string $parentPhone;
 
     #[Column(name: 'parent_job', type: 'string', nullable: 'true')]
-    private string $parentJob;
+    private string|null $parentJob;
 
     #[Column(name: 'address_street_number', type: 'integer')]
     private int $addressStreetNumber;
@@ -114,7 +114,7 @@ class Parents{
         $this->parentPhone = $parentPhone;
     }
 
-    public function getParentJob():string
+    public function getParentJob():string|null
     {
         return $this->parentJob;
     }
