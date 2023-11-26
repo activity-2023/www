@@ -32,7 +32,25 @@ class StaffRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function getStaff(int $staffId): Staff{
+    public function getStaff(int $staffId): Staff|null{
         return $this->find($staffId);
+    }
+
+    public function getStaffByEmail($mail){
+        $queryb = $this->getEntityManager()->createQueryBuilder();
+        $queryb->select('staff')
+            ->from(Staff::class, 'staff')
+            ->where('staff.staffEmail = :email')
+            ->setParameter('email', $mail);
+        return $queryb->getQuery()->getResult();
+    }
+
+    public function getStaffByTel($tel){
+        $queryb = $this->getEntityManager()->createQueryBuilder();
+        $queryb->select('staff')
+            ->from(Staff::class, 'staff')
+            ->where('staff.staffPhone = :tel')
+            ->setParameter('tel', $tel);
+        return $queryb->getQuery()->getResult();
     }
 }

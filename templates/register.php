@@ -1,23 +1,16 @@
-<?php
 
-//if(isset($_SESSION['connexion'])){
-//    header("Location: /account");
-//    exit();
-//}
-
-?>
 <h1>Créer mon compte</h1>
 <section>
     <h2>Mes informations</h2>
     <p>Renseigner les informations pour ajouter à la base</p>
-    <?php if(isset($dispo_log)):?>
+    <?php if(isset($indispo)):?>
         <div class="card" style=" background-color: burlywood; align-items: center">
             <div class="card-body" >
-                <p>Votre login est indisponible</p>
+                <p><?= $indispo?></p>
             </div>
         </div>
-
     <?php endif?>
+
     <div>
         <form action="/register" method="post">
             <div style="display: grid; justify-content:center;" >
@@ -82,6 +75,17 @@
                                value="<?= $tel ?? '' ?>" required>
                     </div>
                 </div>
+                <?php if($account_type=="user"):?>
+                <div class="row g-2 align-items-center" style="padding: 1em">
+                    <div class="col-auto">
+                        <label for="job" class="col-form-label" >Votre job (facultatif)</label>
+                    </div>
+                    <div class="col-auto">
+                        <input type="text" id="job" class="form-control" name="job" pattern="[a-z ]*"
+                               value="<?= (isset($job)) ? $job : '' ?>">
+                    </div>
+                </div>
+                <?php endif; ?>
                 <div class="row g-2 align-items-center" style="padding: 1em">
                     <div class="col-auto">
                         <label for="ad-st-nam" class="col-form-label">Nom de rue</label>
@@ -118,6 +122,46 @@
                                title="Tout en majuscule"  value="<?= $address['city'] ?? '' ?>" required>
                     </div>
                 </div>
+                <?php if($account_type!="user") :?>
+                <div class="row g-2 align-items-center" style="padding: 1em">
+                    <div class="col-auto">
+                        <label for="contract_type" class="col-form-label">Type de contrat</label>
+                    </div>
+                    <div class="col-auto">
+                        <select class="form-control" id="contract_type" name="contract_type" required>
+                            <option value="PERMANENT">PERMANENT</option>
+                            <option value="INTERIM">INTERIM</option>
+                            <option value="TEMPORARY">TEMPORARY</option>
+                            <option value="SERVICE">SERVICE</option>
+                        </select>
+                    </div>
+                </div>
+                <?php endif;?>
+
+                <?php if($account_type =="staff") :?>
+                    <div class="row g-2 align-items-center" style="padding: 1em">
+                        <div class="col-auto">
+                            <label for="hr_number" class="col-form-label">Numéro RH</label>
+                        </div>
+                        <div class="col-auto">
+                            <input class="form-control" name="hr_number" type="number" id="hr_number" max="10000" min="0"
+                                   value="<?= $staff_info['hr_number'] ?? '' ?>" required>
+                        </div>
+                    </div>
+                    <div class="row g-2 align-items-center" style="padding: 1em">
+                        <div class="col-auto">
+                            <label for="staff_function" class="col-form-label">Fonction dans l'entreprise</label>
+                        </div>
+                        <div class="col-auto">
+                            <select class="form-control" id="staff_function" name="staff_function" required>
+                                <option value="EMPLOYEE">EMPLOYEE</option>
+                                <option value="SECRETARY">SECRETARY</option>
+                                <option value="EXECUTIVE">EXECUTIVE</option>
+                            </select>
+                        </div>
+                    </div>
+
+                <?php endif;?>
                 <div class="row g-2 align-items-center" style="padding: 1em">
                     <div class="col-auto">
                         <label for="login" class="col-form-label">Votre login</label>
@@ -146,10 +190,12 @@
                         <input class="form-control" name="pswd" type="password" id="psswd" required>
                     </div>
                 </div>
+                <input hidden="hidden" name="account_type" value="<?=$account_type?>">
 
                 <div class="row g-2 align-items-center" style="padding: 1em">
                     <button class="btn btn-success" type="submit">Enregister</button>
                 </div>
+
             </div>
         </form>
     </div>
