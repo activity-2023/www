@@ -8,7 +8,7 @@ use Doctrine\ORM\Exception\MissingMappingDriverImplementation;
 use Doctrine\ORM\ORMSetup;
 use Exception;
 
-class BdEntityManager{
+class Bootstrap{
     private $dbName;
     private $user;
     private $password;
