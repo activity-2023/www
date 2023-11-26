@@ -25,4 +25,7 @@ class ActivityRepository extends EntityRepository
     public function getActivity(int $activityId) : Activity|null{
         return $this->find($activityId);
     }
+    public function getAllActivities() : array|null{
+        return $this->findBy([], ['activityId' => 'DESC'], 6);
+    }
 }

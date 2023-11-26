@@ -14,7 +14,7 @@ use Doctrine\ORM\EntityRepository;
 class ParentsRepository extends EntityRepository
 {
     public function addParent(int $parentId, string $email, string $phone, int $addressStreetNumber,
-                              string $addressStreetName, string $addressZipCode, string $addressCity, string $job){
+                              string $addressStreetName, string $addressZipCode, string $addressCity, string $job = null){
         $parent = new Parents($parentId);
         $parent->setParentEmail($email);
         $parent->setParentJob($job);

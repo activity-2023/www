@@ -23,17 +23,20 @@ class PersonRepository extends EntityRepository
         Type::addType('gender', 'Data\enums\gender');
     }
 
-    public function addPerson(string $fname, string $lname, string $gender, \DateTime $birthDate){
+    public function addPerson(string $fname, string $lname, string $gender, \DateTime $birthDate, string $pin): int{
         $person = new Person();
         $person->setPersonFname($fname);
         $person->setPersonLname($lname);
         $person->setPersonGender((new gender())->get($gender));
         $person->setPersonBirthDate($birthDate);
+        $pinHash = hash('sha256', $pin);
+        $person->setPersonAccessPinHash($pinHash);
         $this->getEntityManager()->persist($person);
         $this->getEntityManager()->flush();
+        return $person->getPersonId();
     }
 
-    public function getPerson(int $personId):Person{
+    public function getPerson(int $personId):Person|null{
         return $this->find($personId);
     }
 

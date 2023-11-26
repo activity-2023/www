@@ -19,7 +19,7 @@ class ParticipateRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function getParticipation(int $personId, int $eventId): Participate{
+    public function getParticipation(int $personId, int $eventId): Participate|null{
         return $this->find(array("personId"=>$personId, "eventId"=>$eventId));
     }
 }

@@ -13,9 +13,13 @@ use Doctrine\ORM\EntityRepository;
  */
 class SubscribeRepository extends EntityRepository
 {
-    public function subscribe(int $personId, int $activityId){
+    public function addSubscribtion(int $personId, int $activityId){
         $subscribe = new Subscribe($personId, $activityId);
         $this->getEntityManager()->persist($subscribe);
         $this->getEntityManager()->flush();
+    }
+
+    public function getSubscribtion(int $personId, int $activityId): Subscribe|null{
+        return $this->findOneBy(['personId'=>$personId, 'activityId'=>$activityId]);
     }
 }

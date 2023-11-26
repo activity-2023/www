@@ -15,14 +15,14 @@ use Doctrine\ORM\EntityRepository;
  */
 class EventRepository extends EntityRepository
 {
-    public function addEvent(int $activityId, int $roomId, \DateTime $date, \DateTime $startTime, \DateTime $duration, int $nbMax){
+    public function addEvent(int $activityId, int $roomId, string $date, string $startTime, string $duration, int $nbMax){
         $event = new Event();
         $event->setActivityId($activityId);
         $event->setRoomId($roomId);
-        $event->setEventDuration($duration);
-        $event->setEventDate($date);
+        $event->setEventDuration(new \DateTime($duration));
+        $event->setEventDate(new \DateTime($date));
         $event->setEventMaxParticipant($nbMax);
-        $event->setEventStartTime($startTime);
+        $event->setEventStartTime(new \DateTime($startTime));
         $this->getEntityManager()->persist($event);
         $this->getEntityManager()->flush();
     }
