@@ -1,15 +1,15 @@
 <?php
 
-namespace Data;
+namespace App\Data;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
-use \Repository\SubscribeRepository;
+use App\Repository\SubscribeRepository;
 
-#[Entity(repositoryClass: \Repository\SubscribeRepository::class)]
+#[Entity(repositoryClass: SubscribeRepository::class)]
 #[Table(name: 'subscribe')]
 class Subscribe{
     #[Id]
@@ -23,22 +23,13 @@ class Subscribe{
     private int $activityId;
 
 
-    #[Column(name: 'suscription_date', type: 'date')]
-    private \DateTime $suscriptionDate;
-
-
 
     public function __construct(int $personId, int $activityId)
     {
         $this->personId = $personId;
         $this->activityId = $activityId;
-        $this->suscriptionDate = new \DateTime();
     }
 
-    public function getSubsriptionDate(): \DateTime
-    {
-        return $this->suscriptionDate;
-    }
     public function getPersonId(): int
     {
         return $this->personId;

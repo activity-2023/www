@@ -1,15 +1,15 @@
 <?php
 
-namespace Data;
+namespace App\Data;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
-use \Repository\UserRepository;
+use App\Repository\UserRepository;
 
 #[Entity(repositoryClass: UserRepository::class)]
-#[Table(name: 'users')]
+#[Table(name: 'user_account')]
 class User {
     #[Id]
     #[Column(name: 'user_id', type: 'integer')]

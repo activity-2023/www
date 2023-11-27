@@ -1,15 +1,15 @@
 <?php
 
-namespace Data;
+namespace App\Data;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
-use \Repository\InternalStaffRepository;
+use App\Repository\InternalStaffRepository;
 
-#[Entity(repositoryClass: \Repository\InternalStaffRepository::class)]
+#[Entity(repositoryClass: InternalStaffRepository::class)]
 #[Table(name: 'internal_staff')]
 class InternalStaff{
 

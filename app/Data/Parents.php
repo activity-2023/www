@@ -1,6 +1,6 @@
 <?php
 
-namespace Data;
+namespace App\Data;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,9 +10,9 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
-use \Repository\ParentsRepository;
+use App\Repository\ParentsRepository;
 
-#[Entity(repositoryClass: \Repository\ParentsRepository::class)]
+#[Entity(repositoryClass: ParentsRepository::class)]
 #[Table(name: 'parent')]
 class Parents{
 
@@ -42,7 +42,7 @@ class Parents{
     #[Column(name: 'address_city', type: 'string')]
     private string $addressCity;
 
-    #[OneToMany(mappedBy: 'parentId', targetEntity: Child::class)]
+    #[OneToMany(mappedBy: 'parentId', targetEntity: Child::class, cascade: ['remove'])]
     private Collection $children;
 
     public function __construct($parentId){

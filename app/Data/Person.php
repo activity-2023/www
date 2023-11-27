@@ -1,20 +1,17 @@
 <?php
 
-namespace Data;
+namespace App\Data;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\DiscriminatorColumn;
-use Doctrine\ORM\Mapping\DiscriminatorMap;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
-use Doctrine\ORM\Mapping\InheritanceType;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
-use \Repository\PersonRepository;
+use App\Repository\PersonRepository;
 
-#[Entity(repositoryClass: \Repository\PersonRepository::class)]
+#[Entity(repositoryClass: PersonRepository::class)]
 #[Table(name: 'person')]
 class Person{
     #[Id]
@@ -43,16 +40,16 @@ class Person{
         $this->personAccessPinHash = $personAccessPinHash;
     }
 
-    #[OneToMany(mappedBy: 'personId', targetEntity: BuildingLogs::class)]
+    #[OneToMany(mappedBy: 'personId', targetEntity: BuildingLogs::class, cascade: ['remove'])]
     private Collection $personLogsB;
 
-    #[OneToMany(mappedBy: 'personId', targetEntity: RoomLogs::class)]
+    #[OneToMany(mappedBy: 'personId', targetEntity: RoomLogs::class, cascade: ['remove'])]
     private Collection $personLogsR;
 
-    #[OneToMany(mappedBy: 'personId', targetEntity: Participate::class)]
+    #[OneToMany(mappedBy: 'personId', targetEntity: Participate::class, cascade: ['remove'])]
     private Collection $participation;
 
-    #[OneToMany(mappedBy: 'personId', targetEntity: Subscribe::class)]
+    #[OneToMany(mappedBy: 'personId', targetEntity: Subscribe::class, cascade: ['remove'])]
     private Collection $activitySubscribe;
 
     public function __construct(){

@@ -1,6 +1,6 @@
 <?php
 
-namespace Data;
+namespace App\Data;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,9 +11,9 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
-use \Repository\RoomRepository;
+use App\Repository\RoomRepository;
 
-#[Entity(repositoryClass: \Repository\RoomRepository::class)]
+#[Entity(repositoryClass: RoomRepository::class)]
 #[Table(name: 'room')]
 class Room{
     #[Id]

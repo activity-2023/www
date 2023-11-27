@@ -1,6 +1,8 @@
 <?php
 
-namespace Data;
+namespace App\Data;
+
+use App\Repository\ActivityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
@@ -9,9 +11,8 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
-use \Repository\ActivityRepository;
 
-#[Entity(repositoryClass: \Repository\ActivityRepository::class)]
+#[Entity(repositoryClass: ActivityRepository::class)]
 #[Table(name: 'activity')]
 class Activity {
     #[Id]
@@ -31,13 +32,13 @@ class Activity {
     #[Column(name: 'activity_price', type: 'float')]
     private float $price;
 
-    #[OneToMany(mappedBy: 'activityId', targetEntity: Event::class)]
+    #[OneToMany(mappedBy: 'activityId', targetEntity: Event::class, cascade: ['remove'])]
     private Collection $events;
 
-    #[OneToMany(mappedBy: 'activityId', targetEntity: Subscribe::class)]
+    #[OneToMany(mappedBy: 'activityId', targetEntity: Subscribe::class, cascade: ['remove'])]
     private Collection $subscribes;
 
-    #[OneToMany(mappedBy: 'activityId', targetEntity: Propose::class)]
+    #[OneToMany(mappedBy: 'activityId', targetEntity: Propose::class, cascade: ['remove'])]
     private Collection $proposition;
 
     public function __construct(){

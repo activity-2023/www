@@ -1,6 +1,6 @@
 <?php
 
-namespace Data;
+namespace App\Data;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
-use \Repository\StaffRepository;
+use App\Repository\StaffRepository;
 
 #[Entity(repositoryClass: StaffRepository::class)]
 #[Table(name: 'staff')]
@@ -29,14 +29,14 @@ class Staff{
     #[Column(name: 'staff_contract_type', type: 'contractType')]
     private $staffContractType;
 
-    #[OneToMany(mappedBy: 'staffId', targetEntity: StaffPresence::class)]
+    #[OneToMany(mappedBy: 'staffId', targetEntity: StaffPresence::class, cascade: ['remove'])]
     private Collection $staffPresence;
 
 
-    #[OneToMany(mappedBy: 'staffId', targetEntity: Organize::class)]
+    #[OneToMany(mappedBy: 'staffId', targetEntity: Organize::class, cascade: ['remove'])]
     private Collection $organisation;
 
-    #[OneToMany(mappedBy: 'staffId', targetEntity: Propose::class)]
+    #[OneToMany(mappedBy: 'staffId', targetEntity: Propose::class, cascade: ['remove'])]
     private Collection $proposition;
 
     public function __construct(int $staffId)

@@ -1,5 +1,5 @@
 <?php
-namespace Data\Enums;
+namespace App\Data\Enums;
 
 use Doctrine\DBAL\Exception;
 use Doctrine\DBAL\Platforms\AbstractPlatform;

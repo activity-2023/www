@@ -1,15 +1,15 @@
 <?php
 
-namespace Data;
+namespace App\Data;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
-use \Repository\OrganizeRepository;
+use App\Repository\OrganizeRepository;
 
-#[Entity(repositoryClass: \Repository\OrganizeRepository::class)]
+#[Entity(repositoryClass: OrganizeRepository::class)]
 #[Table(name: 'organize')]
 class Organize{
 

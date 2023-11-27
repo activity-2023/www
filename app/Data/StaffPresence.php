@@ -1,6 +1,6 @@
 <?php
 
-namespace Data;
+namespace App\Data;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -8,10 +8,9 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
-use \Repository\StaffPresenceRepository;
-use function Symfony\Component\String\s;
+use App\Repository\StaffPresenceRepository;
 
-#[Entity(repositoryClass: \Repository\StaffPresenceRepository::class)]
+#[Entity(repositoryClass: StaffPresenceRepository::class)]
 #[Table(name: 'staff_presence')]
 class StaffPresence{
 

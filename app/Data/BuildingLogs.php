@@ -1,13 +1,13 @@
 <?php
 
-namespace Data;
+namespace App\Data;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
-use Repository\BuildingLogsRepository;
+use App\Repository\BuildingLogsRepository;
 
 #[Entity(repositoryClass: BuildingLogsRepository::class)]
 #[Table(name: 'building_logs')]
@@ -18,14 +18,14 @@ class BuildingLogs{
     private int $personId;
 
     #[Id]
-    #[ManyToOne(targetEntity: Building::class, inversedBy: 'buildingLogs')]
-    #[Column(name: 'building_id', type: 'integer')]
+    #[ManyToOne(targetEntity: Building::class, inversedBy:'buildingLogs')]
+    #[Column(name: 'building_id', type:'integer')]
     private int $buildingId;
 
     #[Column(name: 'bl_timestamp', type:'datetime')]
     private  $logDate;
 
-    #[Column(name: 'bl_status', type: 'boolean')]
+    #[Column(name: 'bl_status', type:'boolean')]
     private bool $logStatus;
 
     public function __construct(int $buildingId, int $personId){

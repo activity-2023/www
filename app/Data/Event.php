@@ -1,6 +1,6 @@
 <?php
 
-namespace Data;
+namespace App\Data;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\Table;
-use Repository\EventRepository;
+use App\Repository\EventRepository;
 
 #[Entity(repositoryClass: EventRepository::class)]
 #[Table(name: 'event')]
@@ -41,13 +41,13 @@ class Event{
     #[Column(name: 'activity_id', type: 'integer')]
     private int $activityId;
 
-    #[OneToMany(mappedBy: 'eventId', targetEntity: Participate::class)]
+    #[OneToMany(mappedBy: 'eventId', targetEntity: Participate::class, cascade: ['remove'])]
     private Collection $participation;
 
-    #[OneToMany(mappedBy: 'eventId', targetEntity: Organize::class)]
+    #[OneToMany(mappedBy: 'eventId', targetEntity: Organize::class, cascade: ['remove'])]
     private Collection $organisation;
 
-    #[OneToMany(mappedBy: 'eventId', targetEntity: Propose::class)]
+    #[OneToMany(mappedBy: 'eventId', targetEntity: Propose::class, cascade: ['remove'])]
     private Collection $proposition;
 
     public function __construct(){

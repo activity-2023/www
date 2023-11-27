@@ -1,17 +1,16 @@
 <?php
 
-namespace Data;
+namespace App\Data;
 
-use Data\Enums\schoolLevel;
+use App\Repository\ChildRepository;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToOne;
 use Doctrine\ORM\Mapping\Table;
-use \Repository\ChildRepository;
 
-#[Entity(repositoryClass: \Repository\ChildRepository::class)]
+#[Entity(repositoryClass: ChildRepository::class)]
 #[Table(name: 'child')]
 class Child  {
     #[Id]
@@ -19,7 +18,7 @@ class Child  {
     #[OneToOne(targetEntity: Person::class)]
     private int $childId;
 
-    #[Column(name: 'child_school_level', type: 'schoolLevel' ,nullable: 'true')]
+    #[Column(name: 'child_school_level', type: 'schoolLevel', nullable: 'true')]
     private $childSchoolLevel;
 
     #[Column(name: 'parent_id', type: 'integer')]

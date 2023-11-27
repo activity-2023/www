@@ -1,15 +1,15 @@
 <?php
 
-namespace Data;
+namespace App\Data;
 
+use App\Repository\ProposeRepository;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
-use \Repository\ProposeRepository;
 
-#[Entity(repositoryClass: \Repository\ProposeRepository::class)]
+#[Entity(repositoryClass: ProposeRepository::class)]
 #[Table(name: 'propose')]
 class Propose{
 

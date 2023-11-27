@@ -1,16 +1,15 @@
 <?php
 
-namespace Data;
+namespace App\Data;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
-use Repository\BuildingLogsRepository;
-use \Repository\RoomLogsRepository;
+use App\Repository\RoomLogsRepository;
 
-#[Entity(repositoryClass: \Repository\RoomLogsRepository::class)]
+#[Entity(repositoryClass: RoomLogsRepository::class)]
 #[Table(name: 'room_logs')]
 class RoomLogs{
 
@@ -44,7 +43,7 @@ class RoomLogs{
         return $this->personId;
     }
 
-    public function getLogDate()
+    public function getLogDate(): \DateTime
     {
         return $this->logDate;
     }
@@ -54,7 +53,7 @@ class RoomLogs{
         $this->logDate = $logDate;
     }
 
-    public function getLogStatus()
+    public function getLogStatus(): bool
     {
         return $this->logStatus;
     }

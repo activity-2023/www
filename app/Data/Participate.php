@@ -1,15 +1,15 @@
 <?php
 
-namespace Data;
+namespace App\Data;
 
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
-use \Repository\ParticipateRepository;
+use App\Repository\ParticipateRepository;
 
-#[Entity(repositoryClass: \Repository\ParticipateRepository::class)]
+#[Entity(repositoryClass: ParticipateRepository::class)]
 #[Table(name: 'participate')]
 class Participate{
 
