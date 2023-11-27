@@ -2,7 +2,6 @@
 <h1>Créer mon compte</h1>
 <section>
     <h2>Mes informations</h2>
-    <p>Renseigner les informations pour ajouter à la base</p>
     <?php if(isset($indispo)):?>
         <div class="card" style=" background-color: burlywood; align-items: center">
             <div class="card-body" >
@@ -19,7 +18,7 @@
                         <label for="lname" class="col-form-label">Nom</label>
                     </div>
                     <div class="col-auto">
-                        <input type="text" id="lname" class="form-control" name="lname"  pattern="[A-Z][A-Z ]*"
+                        <input type="text" id="lname" class="form-control" name="lname" pattern="[A-Z][A-Z ]*"
                                required placeholder="NOM" title="Votre nom tout en majuscule éventuellement un espace"
                                 value="<?= (isset($lname)) ? $lname : '' ?>">
                     </div>
@@ -29,7 +28,7 @@
                         <label for="fname" class="col-form-label" >Prénom</label>
                     </div>
                     <div class="col-auto">
-                        <input type="text" id="fname" class="form-control" name="fname" pattern="[A-Z][a-z]+"
+                        <input type="text" id="fname" class="form-control" name="fname" pattern="[A-Z][a-z ]*"
                                placeholder="Prenom" required title="Votre prénom commence par une majuscule puis tout en minuscule sans espace"
                                value="<?= (isset($fname)) ? $fname : '' ?>">
                     </div>
@@ -71,7 +70,7 @@
                     </div>
                     <div class="col-auto">
                         <input class="form-control" type="tel" name="tel" id="tel" placeholder="0125639842"
-                               pattern="[0][1-9]{9}" title="Numéro avec 0 puis 9 chiffres"
+                               pattern="[0][1-9][0-9]{8}" title="Numéro avec 0 puis 9 chiffres"
                                value="<?= $tel ?? '' ?>" required>
                     </div>
                 </div>
@@ -177,7 +176,7 @@
                         <label for="pin" class="col-form-label">Choisir un pin (4 chiffres)</label>
                     </div>
                     <div class="col-auto">
-                        <input class="form-control" name="pin" type="text"  id="pin"
+                        <input class="form-control" name="pin" type="password"  id="pin" inputmode="numeric"
                                title="4 chiffres de 0000 à 9999" pattern="[0-9]{4}" value="<?= $pin ?? '' ?>" required>
                     </div>
                 </div>
