@@ -3,13 +3,11 @@
 namespace App\Controller;
 
 use Core\Controller\AbstractController;
-use Data\Activity;
-
-use Data\Event;
-use Data\Organize;
-use Data\Participate;
-use Data\Propose;
-use Data\Subscribe;
+use App\Data\Event;
+use App\Data\Organize;
+use App\Data\Participate;
+use App\Data\Propose;
+use App\Data\Subscribe;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -41,9 +39,10 @@ class CancelController extends AbstractController
     }
     public function unsubscribe_event(Request $request, Response $response, array $args = []): Response{
         $id_event = $args['id'];
+        $personId = $args['personId'];
         $participateRep = $this->getEntityManager()->getRepository(Participate::class);
-        if(!empty($participateRep->getParticipation($_SESSION['connexion'], $id_event))){
-            $participateRep->deleteParticipation($_SESSION['connexion'], $id_event);
+        if(!empty($participateRep->getParticipation($personId, $id_event))){
+            $participateRep->deleteParticipation($personId, $id_event);
         }
         header("Location: /account");
         exit();

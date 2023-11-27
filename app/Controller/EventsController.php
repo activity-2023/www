@@ -3,12 +3,11 @@
 namespace  App\Controller;
 
 use Core\Controller\AbstractController;
-use Data\Building;
-use Data\Event;
-use Data\Participate;
-use Data\Room;
+use App\Data\Building;
+use App\Data\Event;
+use App\Data\Participate;
+use App\Data\Room;
 use Doctrine\DBAL\Types\Type;
-use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -35,7 +34,7 @@ class EventsController extends AbstractController{
         $endTime = $this->calculEndTime($eventStartTime, $eventduration);
         $entityManager = $this->getEntityManager();
 
-        Type::addType('roomType', 'Data\enums\roomType');
+        Type::addType('roomType', 'App\Data\Enums\roomType');
         $queryBuilder = $entityManager->createQueryBuilder();
         $queryb = $entityManager->createQueryBuilder();
 
@@ -117,21 +116,34 @@ class EventsController extends AbstractController{
             exit();
         }
         $id_event = $args['id_event'];
-        $id_person = $_SESSION['connexion'];
+        $id_person = $args['person_id'];
 
-        $entityManager = $this->getEntityManager();
-        $participateRep = $entityManager->getRepository(Participate::class);
+        $participateRep = $this->getEntityManager()->getRepository(Participate::class);
         $oldParticipation = $participateRep->getParticipation($id_person, $id_event);
 
-        if(is_null($oldParticipation)   && $this->nbfreePlaces($id_event, $entityManager) > 0){
+        if(is_null($oldParticipation) && $this->nbfreePlaces($id_event) > 0){
             $participateRep->registerParticipant($id_person, $id_event);
         }
         header("Location: /account");
         exit();
     }
 
-    public function nbfreePlaces($event_id, EntityManager $entityManager):int{
-        $query = $entityManager->createQueryBuilder();
+    public function personChoice(Request $request, Response $response, array $args = []):Response{
+        $id_event = $args['id_event'];
+        $persons = $this->getPersonsAccount($_SESSION['connexion']);
+        $parent = $persons['parent'];
+        $children = null;
+        if(isset($persons['children'])){
+            $children = $persons['children'];
+        }
+        $response->getBody()->write($this->render('personchoice', compact('id_event', 'parent', 'children')));
+        return $response;
+    }
+
+
+
+    public function nbfreePlaces($event_id):int{
+        $query = $this->getEntityManager()->createQueryBuilder();
         $query->select('COUNT (participate.personId) as total')
             ->distinct()
             ->from(Participate::class, 'participate')
@@ -146,7 +158,7 @@ class EventsController extends AbstractController{
         else{
             $total = $participations['total'];
         }
-        $maxplaces = $entityManager->getRepository(Event::class)->getEvent($event_id)->getEventMaxParticipant();
+        $maxplaces = $this->getEntityManager()->getRepository(Event::class)->getEvent($event_id)->getEventMaxParticipant();
         return $maxplaces - $total;
     }
 
