@@ -45,7 +45,7 @@ class Child  {
         return $this->childId;
     }
 
-    public function getChildSchoolLevel(): schoolLevel
+    public function getChildSchoolLevel(): string|null
     {
         return $this->childSchoolLevel;
     }

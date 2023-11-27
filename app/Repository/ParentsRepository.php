@@ -1,6 +1,6 @@
 <?php
 
-namespace Repository;
+namespace repository;
 
 use Data\Parents;
 use Doctrine\ORM\EntityRepository;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Repository;
+namespace repository;
 
 use Data\InternalStaff;
 use Doctrine\DBAL\Types\Type;

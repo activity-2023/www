@@ -1,6 +1,6 @@
 <?php
 
-namespace Repository;
+namespace repository;
 
 use Data\Activity;
 use Doctrine\ORM\EntityRepository;

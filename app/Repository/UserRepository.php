@@ -1,6 +1,6 @@
 <?php
 
-namespace Repository;
+namespace repository;
 
 use Data\User;
 use Doctrine\ORM\EntityManagerInterface;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Repository;
+namespace repository;
 
 use Data\Subscribe;
 use Doctrine\ORM\EntityRepository;

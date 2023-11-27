@@ -1,6 +1,6 @@
 <?php
 
-namespace Repository;
+namespace repository;
 
 use Data\Child;
 use Data\Enums\schoolLevel;
@@ -22,7 +22,7 @@ class ChildRepository extends EntityRepository
         parent::__construct($em, $class);
         Type::addType('schoolLevel', 'Data\enums\schoolLevel');
     }
-    public function addChild(int $childId, int $parentId, string $schoolLevel){
+    public function addChild(int $childId, int $parentId, string $schoolLevel = null){
         $child = new Child($childId);
         $child->setChildSchoolLevel((new schoolLevel())->get($schoolLevel));
         $child->setParentId($parentId);
@@ -32,5 +32,22 @@ class ChildRepository extends EntityRepository
     }
     public function getChild(int $id): Child|null{
         return $this->find($id);
+    }
+
+    public function getChildrenByParentId(int $parentId){
+        $queryB = $this->getEntityManager()->createQueryBuilder();
+        $queryB->select('child')
+            ->from(Child::class, 'child')
+            ->where('child.parentId = :parentId')
+            ->setParameter('parentId', $parentId);
+        return $queryB->getQuery()->getArrayResult();
+    }
+
+    public function deleteChild(int $id){
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->delete(Child::class, 'c')
+            ->where('c.childId= :id')
+            ->setParameter('id', $id);
+        $qb->getQuery()->getResult();
     }
 }
