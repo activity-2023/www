@@ -68,7 +68,7 @@
                                 <div style="padding:1em; ">
                                     <a href="/join_event/id=<?=$event_info['id'] ?>" class="btn btn-primary" >Rejoindre</a>
                                 </div>
-                            <?php else: ?>
+                            <?php elseif(isset($_SESSION['connexion']) && $_SESSION['account_type']=="staff" ):?>
                                 <div style="padding:1em; ">
                                     <a href="/cancel_event/id=<?=$event_info['id']?>" class="btn btn-primary" >Annuler</a>
                                 </div>

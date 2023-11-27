@@ -1,0 +1,53 @@
+footer {
+    background-color:  #cceeff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #0077b3;
+    padding: 3%;
+}
+footer >div{
+    display: flex;
+    flex-direction: column;
+    text-align: center ;
+    margin-right: 10%;
+}
+
+.footer-title{
+    margin-bottom: 2%;
+    font-size: 2em;
+    padding-bottom: 4%;
+}
+.footer-link{
+    display: flex;
+    flex-direction: column;
+    padding: 10%;
+    line-height: 130%;
+    text-align: left;
+    font-size: 1.1em;
+}
+.footer-contact{
+    display: flex;
+    flex-direction: row;
+    flex: auto;
+}
+.footer-mail{
+    text-align: left;
+    padding-left: 8%;
+    line-height: 150%;
+}
+
+footer a {
+    color: #f2f2f2;
+}
+
+.images_container{
+    display: flex;
+    align-items: center;
+    padding: 1em;
+}
+.images{
+    padding: 1em;
+    border-radius: 50px;
+
+}

@@ -1,4 +1,4 @@
-<section style="padding: 2%;">
+<section style="padding: 2%; text-align: center">
     <h1>Mon compte</h1>
     <div style="align-items: center; text-align: center; padding: 2em">
         <div class="card" style="width: 80%;">
@@ -11,10 +11,10 @@
         <h5>Informations personnelles</h5>
         <div class="card-body">
             <ul class="list-group">
-                <li class="list-group-item">Nom : <?=$nom?></li>
-                <li class="list-group-item">Prénom : <?=$prenom?></li>
-                <li class="list-group-item">Date de naissance : <?=date_format($birth,"Y/m/d")?></li>
-                <li class="list-group-item">Genre : <?=$gender?></li>
+                <li class="list-group-item">Nom : <?=$adminInfo['lname']?></li>
+                <li class="list-group-item">Prénom : <?=$adminInfo['fname']?></li>
+                <li class="list-group-item">Date de naissance : <?=$adminInfo['birth']?></li>
+                <li class="list-group-item">Genre : <?=$adminInfo['gender']?></li>
                 <li class="list-group-item">Votre adresse : <?=$account['address']['st-num'].', '.$account['address']['st-name'].', '.
                     $account['address']['zip'].' '. $account['address']['city']?></li>
                 <?php if($_SESSION['account_type']=="user"): ?>
@@ -30,7 +30,7 @@
         </div>
     </div>
     <?php if(isset($activities) && !empty($activities)): ?>
-        <h5>Activités associées à ce compte</h5>
+        <h5 style="font-size: 1.5em; align-items: center; padding: 1em; color: #0077b3">Activités associées à ce compte</h5>
         <div class="row" style="padding: 1em;">
         <?php foreach ($activities as $activity ):
             $activity_info = $this->getActivityInfo($activity);?>
@@ -55,7 +55,7 @@
 
 
      <?php if(isset($events) && !empty($events)): ?>
-        <h5>Événements à l'approche</h5>
+        <h5 style="font-size: 1.5em; align-items: center; padding: 1em; color: #0077b3">Événements à l'approche</h5>
         <div class="row" style="padding: 1em;">
             <?php foreach ($events as $event ):
                 $event_info = $this->getEventInfo($event);?>
@@ -95,6 +95,34 @@
             <div style="padding:2em; align-items: center">
                 <a href="/staff_account_creation" class="btn btn-primary" >Créer un compte professionnel</a>
             </div>
+        </div>
+    <?php endif;?>
+
+    <?php if($_SESSION['account_type']=="user" && isset($children) && !empty($children)) :?>
+        <h5 style="font-size: 1.5em; align-items: center; padding: 1em; color: #0077b3">Les personnes associées à mon compte</h5>
+        <div class="row" style="padding: 1em;">
+            <?php foreach ($children as $child ):
+                $child_info = $this->getChildInfo($child);?>
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                    <div class="card">
+                        <div class="card-body">
+                            <li class="list-group-item">Nom : <?=$child_info['lname']?></li>
+                            <li class="list-group-item">Prénom : <?=$child_info['fname']?></li>
+                            <li class="list-group-item">Date de naissance : <?=$child_info['birth']?></li>
+                            <li class="list-group-item">Genre : <?=$child_info['gender']?></li>
+                            <li class="list-group-item">Niveau Scolaire : <?=$child_info['school_level']?></li>
+                            <div style="padding:1em; ">
+                                <a href="/removechild/id=<?=$child_info['id']?>" class="btn btn-primary" >Retirer</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif;?>
+    <?php if($_SESSION['account_type']=="user" ) :?>
+        <div style="padding:2em; align-items: center">
+            <a href="/addchild/id=<?=$_SESSION['connexion']?>" class="btn btn-primary" >Ajouter une personne</a>
         </div>
     <?php endif;?>
 
