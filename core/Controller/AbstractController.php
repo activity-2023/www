@@ -3,8 +3,12 @@ declare(strict_types=1);
 
 namespace Core\Controller;
 use Core\DataBase\Bootstrap;
-use Data\Activity;
-use Data\Event;
+use App\Data\Activity;
+use App\Data\Child;
+use App\Data\Event;
+use App\Data\Participate;
+use App\Data\Person;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -37,6 +41,48 @@ abstract  class AbstractController {
 
     public abstract function index(Request $request, Response $response, array $args = []): Response;
 
+
+    public function getPersonsAccount(int $id){
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder();
+        $queryBuilder->select('person.personId')
+            ->from(Person::class, 'person')
+            ->where('person.personId = :parentId')
+            ->setParameter('parentId', $_SESSION['connexion']);
+        $parent = $queryBuilder->getQuery()->getArrayResult()[0];
+
+        $queryb = $this->getEntityManager()->createQueryBuilder();
+        $queryb->select('person.personId')
+            ->from(Person::class, 'person')
+            ->join(Child::class, 'child', 'WITH', 'child.childId = person.personId')
+            ->where('child.parentId = :parentId')
+            ->orWhere('person.personId = :parentId')
+            ->setParameter('parentId', $id);
+        $child = $queryb->getQuery()->getArrayResult();
+
+        return ['children'=>$child, 'parent'=>$parent];
+    }
+
+    public function allreadyParticipate($id_event, $person_id){
+        $queryB = $this->getEntityManager()->createQueryBuilder();
+        $queryB->select('participate')
+            ->from(Participate::class, 'participate')
+            ->where('participate.eventId = :eventId')
+            ->andWhere('participate.personId = :personId')
+            ->setParameter('eventId', $id_event)
+            ->setParameter('personId', $person_id);
+        return $queryB->getQuery()->getResult();
+    }
+    public function personInfo(int $personId){
+        $personRep = $this->entityManager->getRepository(Person::class);
+        $person = $personRep->getPerson($personId);
+        return [
+            'lname'=>$person->getPersonLname(),
+            'fname'=>$person->getPersonFname(),
+            'gender'=>$person->getPersonGender(),
+            'id'=>$person->getPersonId(),
+            'birth'=>$person->getPersonBirthDate()->format('Y/m/d'),
+        ];
+    }
     public function getActivityInfo(Activity $activity): array
     {
         return [
@@ -47,20 +93,5 @@ abstract  class AbstractController {
             'price'=>$activity->getPrice()
         ];
     }
-
-    public function getEventInfo(Event $event):array
-    {
-        $activityRep =$this->entityManager->getRepository(Activity::class);
-        $activityName = $activityRep->getActivity($event->getActivityId())->getName();
-        return [
-            'id'=>$event->getEventId(),
-            'date'=> $event->getEventDate()->format('H:i'),
-            'start_time'=>$event->getEventStartTime()->format('H:i'),
-            'duration'=>$event->getEventDuration()->format('H:i'),
-            'max_participant'=>$event->getEventMaxParticipant(),
-            'activity_name'=>$activityName
-        ];
-    }
-
 
 }

@@ -1,11 +1,11 @@
 <?php
 namespace App\Controller;
 use Core\Controller\AbstractController;
-use Data\InternalStaff;
-use Data\Parents;
-use Data\Person;
-use Data\Staff;
-use Data\User;
+use App\Data\InternalStaff;
+use App\Data\Parents;
+use App\Data\Person;
+use App\Data\Staff;
+use App\Data\User;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -33,6 +33,14 @@ class RegisterController extends AbstractController {
             'zip'=>htmlspecialchars($info['ad-zip-code']),
             'city'=>htmlspecialchars($info['ad-city'])
         ];
+        if(!preg_match('/^[[:upper:]][[:lower:]]+([[:space:]][[:upper:]])?([[:space:]]?[[:upper:]][[:lower:]]+)*$/', $fname)
+            || !preg_match('/^([[:upper:]]+[[:space:]]?)+$/', $lname )
+            || !preg_match('/^0[1-9][[:digit:]]{8}$/', $tel)
+            || !preg_match('/^[\w!#$%&\'/*+=?`{|}~^-]+(?:\.[\w!#$%&\'/*+=?`{|}~^-]+)*@(?:[a-z0-9-]+\.)+[a-z]{2,6}$/', $mail)
+            || !preg_match('/^[[:lower:]][a-z0-9]+$/', $login)){
+            $indispo = 'Erreur lors de la création veuillez réessayer';
+
+        }
 
         $entityManager = $this->getEntityManager();
         $userRepo = $entityManager->getRepository(User::class);
@@ -56,7 +64,7 @@ class RegisterController extends AbstractController {
             $contract_type = htmlspecialchars($info['contract_type']);
             $hr_number = $info['hr_number'];
             $function = htmlspecialchars($info['staff_function']);
-            // on suppose que c'est un internal staff
+
             if(!empty($staffRep->getStaffByEmail($mail))){
                 $indispo = 'Votre mail doit être unique';
             }elseif (!empty($staffRep->getStaffByTel($tel))) {

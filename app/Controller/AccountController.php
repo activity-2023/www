@@ -2,18 +2,18 @@
 namespace App\Controller;
 
 use Core\Controller\AbstractController;
-use Data\Activity;
-use Data\Event;
-use Data\InternalStaff;
-use Data\Organize;
-use Data\Parents;
-use Data\Participate;
-use Data\Person;
-use Data\Propose;
-use Data\Staff;
-use Data\Subscribe;
-use Data\User;
-use Doctrine\ORM\EntityManager;
+use App\Data\Activity;
+use App\Data\Child;
+use App\Data\Event;
+use App\Data\InternalStaff;
+use App\Data\Organize;
+use App\Data\Parents;
+use App\Data\Participate;
+use App\Data\Person;
+use App\Data\Propose;
+use App\Data\Staff;
+use App\Data\Subscribe;
+use App\Data\User;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -30,34 +30,38 @@ class AccountController extends AbstractController{
         $userRepo = $entityManager->getRepository(User::class);
         $user = $userRepo->getUserById($idUser);
 
-        $persRepo = $entityManager->getRepository(Person::class);
-        $person = $persRepo->getPerson($idUser);
-
-        $nom = $person->getPersonLname();
-        $prenom = $person->getPersonFname();
-        $birth = $person->getPersonBirthDate();
-        $gender = $person->getPersonGender();
+        $adminInfo = $this->personInfo($idUser);
         $login = $user->getUserLogin();
 
         if($account_type=="user"){
             $events = $this->getAssociatedEventsForUser($idUser);
             $activities = $this->getAssociatedActivitiesForUser($idUser);
             $account = $this->getParentInfo($idUser);
-
+            $children = $this->getChildren();
         }
         elseif($account_type=="staff"){
             $activities = $this->getAssociatedActivitiesForStaff($idUser);
             $events = $this->getAssociatedEventsForStaff($idUser, $entityManager);
             $account = $this->getStaffInfo($idUser);
+            $children =[];
         }
-        $response->getBody()->write($this->render('account', compact('nom',
-            'prenom', 'birth', 'gender', 'login', 'account', 'activities', 'events' )));
+        $response->getBody()->write($this->render('account', compact('adminInfo', 'login',
+            'account', 'activities', 'events', 'children')));
         return $response;
     }
 
     public function getChildren(){
-
+        $childRep = $this->getEntityManager()->getRepository(Child::class);
+        return $childRep->getChildrenByParentId($_SESSION['connexion']);
     }
+    public function getChildInfo($child){
+        $persRepo = $this->getEntityManager()->getRepository(Person::class);
+        $person = $persRepo->getPerson($child['childId']);
+        $person_info = $this->personInfo($child['childId']);
+        $person_info['school_level'] = $child['childSchoolLevel'];
+        return $person_info;
+    }
+
     public function getStaffInfo(int $staff_id){
 
         $staffRep = $this->getEntityManager()->getRepository(Staff::class);
@@ -99,15 +103,15 @@ class AccountController extends AbstractController{
         return ['job'=>$job, 'mail'=>$mail, 'tel'=>$tel,'address'=> $address];
     }
 
+
     public function getAssociatedActivitiesForUser($idUser): array|null
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         $queryBuilder->select('a')
             ->from(Activity::class, 'a')
             ->join(Subscribe::class, 's', 'WITH', 'a.activityId = s.activityId')
-            ->where('s.personId = :personId')
-            ->orderBy('s.suscriptionDate', 'DESC')
-            ->setParameter('personId',$idUser )
+            ->where($queryBuilder->expr()->in('s.personId', ':personId'))
+            ->setParameter('personId',$idUser)
             ->setMaxResults( 4 );
         $query = $queryBuilder->getQuery();
         return $query->getResult();
@@ -125,19 +129,26 @@ class AccountController extends AbstractController{
         return $query->getResult();
     }
 
-    public function getAssociatedEventsForUser($idUser): array|null{
+    public function getAssociatedEventsForUser(): array|null{
+        $persons = $this->getPersonsAccount($_SESSION['connexion']);
+        $parent = $persons['parent'];
+        $children = $persons['children'];
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
         $queryBuilder->select('e')
             ->from(Event::class, 'e')
             ->join(Participate::class, 'p', 'WITH', 'e.eventId = p.eventId')
             ->where(
                 $queryBuilder->expr()->andX(
-                    $queryBuilder->expr()->eq('p.personId', ':personId'),
+                    $queryBuilder->expr()->orX(
+                    $queryBuilder->expr()->in('p.personId', ':parent'),
+                    $queryBuilder->expr()->in('p.personId', ':children')
+                    ),
                     $queryBuilder->expr()->gte('e.eventDate', ':date')
                 )
             )
             ->orderBy('e.eventDate', 'DESC')
-            ->setParameter('personId',$idUser)
+            ->setParameter('parent',$parent)
+            ->setParameter('children', $children)
             ->setParameter('date', new \DateTime())
             ->setMaxResults( 4 );
         $query = $queryBuilder->getQuery();
@@ -165,5 +176,18 @@ class AccountController extends AbstractController{
 
     }
 
+    public function getEventInfo(Event $event):array
+    {
+        $activityRep =$this->getEntityManager()->getRepository(Activity::class);
+        $activityName = $activityRep->getActivity($event->getActivityId())->getName();
+        return [
+            'id'=>$event->getEventId(),
+            'date'=> $event->getEventDate()->format('Y/m/d'),
+            'start_time'=>$event->getEventStartTime()->format('H:i'),
+            'duration'=>$event->getEventDuration()->format('H:i'),
+            'max_participant'=>$event->getEventMaxParticipant(),
+            'activity_name'=>$activityName,
+        ];
+    }
 
 }

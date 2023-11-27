@@ -3,12 +3,12 @@
 namespace App\Controller;
 
 use Core\Controller\AbstractController;
-use Data\Activity;
-use Data\Event;
-use Data\Organize;
-use Data\Participate;
-use Data\Propose;
-use Data\Subscribe;
+use App\Data\Activity;
+use App\Data\Event;
+use App\Data\Organize;
+use App\Data\Participate;
+use App\Data\Propose;
+use App\Data\Subscribe;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
@@ -57,16 +57,7 @@ class ActivityController extends AbstractController
             ->setParameter('staffId', $_SESSION['connexion']);
         return $queryB->getQuery()->getResult();
     }
-    public function allreadyParticipate($id_event, $person_id){
-        $queryB = $this->getEntityManager()->createQueryBuilder();
-        $queryB->select('participate')
-            ->from(Participate::class, 'participate')
-            ->where('participate.eventId = :eventId')
-            ->andWhere('participate.personId = :personId')
-            ->setParameter('eventId', $id_event)
-            ->setParameter('personId', $person_id);
-        return $queryB->getQuery()->getResult();
-    }
+
     public function allreadySubscribe($id_activity, $person_id){
         $queryB = $this->getEntityManager()->createQueryBuilder();
         $queryB->select('subscribe')
@@ -77,6 +68,21 @@ class ActivityController extends AbstractController
             ->setParameter('personId', $person_id);
         return $queryB->getQuery()->getResult();
     }
+    public function getEventInfo(Event $event):array
+    {
+        $activityRep =$this->getEntityManager()->getRepository(Activity::class);
+        $activityName = $activityRep->getActivity($event->getActivityId())->getName();
+        return [
+            'id'=>$event->getEventId(),
+            'date'=> $event->getEventDate()->format('Y-m-d'),
+            'start_time'=>$event->getEventStartTime()->format('H:i'),
+            'duration'=>$event->getEventDuration()->format('H:i'),
+            'max_participant'=>$event->getEventMaxParticipant(),
+            'activity_name'=>$activityName
+        ];
+    }
+    public function getAllParticipants($eventId){
 
+    }
 
 }
