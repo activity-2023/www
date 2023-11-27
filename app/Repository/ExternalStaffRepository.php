@@ -1,8 +1,8 @@
 <?php
 
-namespace repository;
+namespace App\Repository;
 
-use Data\ExternalStaff;
+use App\Data\ExternalStaff;
 use Doctrine\ORM\EntityRepository;
 
 /**

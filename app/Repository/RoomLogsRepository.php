@@ -1,8 +1,8 @@
 <?php
 
-namespace repository;
+namespace App\Repository;
 
-use Data\RoomLogs;
+use App\Data\RoomLogs;
 use Doctrine\ORM\EntityRepository;
 
 /**

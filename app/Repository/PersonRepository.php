@@ -1,9 +1,9 @@
 <?php
 
-namespace repository;
+namespace App\Repository;
 
-use Data\Enums\gender;
-use Data\Person;
+use App\Data\Enums\gender;
+use App\Data\Person;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -20,7 +20,7 @@ class PersonRepository extends EntityRepository
     public function __construct(EntityManagerInterface $em, ClassMetadata $class)
     {
         parent::__construct($em, $class);
-        Type::addType('gender', 'Data\enums\gender');
+        Type::addType('gender', 'App\Data\Enums\gender');
     }
 
     public function addPerson(string $fname, string $lname, string $gender, \DateTime $birthDate, string $pin): int{

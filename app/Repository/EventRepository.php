@@ -1,9 +1,9 @@
 <?php
 
-namespace repository;
+namespace App\Repository;
 
-use Cassandra\Time;
-use Data\Event;
+
+use App\Data\Event;
 use Doctrine\DBAL\Types\TimeType;
 use Doctrine\ORM\EntityRepository;
 

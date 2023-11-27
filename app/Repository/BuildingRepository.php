@@ -1,8 +1,8 @@
 <?php
 
-namespace repository;
+namespace App\Repository;
 
-use Data\Building;
+use App\Data\Building;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Exception\ORMException;
@@ -15,15 +15,6 @@ use Doctrine\ORM\Exception\ORMException;
  */
 class BuildingRepository extends EntityRepository
 {
-    //TODO : changer l'address
-    /**
-     * Add new Building to database
-     * @param string $name
-     * @param string $address
-     * @param int $nbFloors
-     * @param bool $hasElevator
-     * @return void
-     */
     public function addBuilding(string $name, int $addressStreetNumber, string $addressStreetName,
                                 string $addressZipCode, string $addressCity, int $nbFloors, bool $hasElevator){
         $building = new Building();
@@ -40,7 +31,7 @@ class BuildingRepository extends EntityRepository
 
     }
 
-    public function getBuildingWithId(string $id): Building{
+    public function getBuildingWithId(string $id): Building|null{
         return $this->find($id);
     }
 

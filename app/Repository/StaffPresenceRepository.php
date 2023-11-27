@@ -1,8 +1,8 @@
 <?php
 
-namespace repository;
+namespace App\Repository;
 
-use Data\StaffPresence;
+use App\Data\StaffPresence;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -17,7 +17,6 @@ class StaffPresenceRepository extends EntityRepository
         $staffPresence = new StaffPresence($staffId);
         $staffPresence->setStaffPresDate($date);
         $staffPresence->setStaffStartTime($startTime);
-        $staffPresence->setStaffEndTime($endTime);
         $this->getEntityManager()->persist($staffPresence);
         $this->getEntityManager()->flush();
     }

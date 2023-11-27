@@ -1,8 +1,8 @@
 <?php
 
-namespace repository;
+namespace App\Repository;
 
-use Data\Activity;
+use App\Data\Activity;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -27,6 +27,6 @@ class ActivityRepository extends EntityRepository
         return $this->find($activityId);
     }
     public function getAllActivities() : array|null{
-        return $this->findBy([], ['activityId' => 'DESC'], 6);
+        return $this->findBy([], ['activityId' => 'DESC']);
     }
 }

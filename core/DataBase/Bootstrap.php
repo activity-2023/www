@@ -10,10 +10,15 @@ use Exception;
 
 class Bootstrap{
     private $dbName;
+
     private $user;
+
     private $password;
+
     private $host;
+
     private $driver;
+
     private $port;
 
     /**
@@ -38,7 +43,7 @@ class Bootstrap{
     public function initConnection(): ?EntityManager{
 
         $config = ORMSetup::createAttributeMetadataConfiguration(
-            paths: array(__DIR__."/../../data/"),
+            paths: array(__DIR__ . "/../../Data/"),
             isDevMode: true,
         );
         $connectionParams = [

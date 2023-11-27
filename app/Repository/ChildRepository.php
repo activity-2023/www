@@ -1,9 +1,9 @@
 <?php
 
-namespace repository;
+namespace App\Repository;
 
-use Data\Child;
-use Data\Enums\schoolLevel;
+use App\Data\Child;
+use App\Data\Enums\schoolLevel;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -20,11 +20,13 @@ class ChildRepository extends EntityRepository
     public function __construct(EntityManagerInterface $em, ClassMetadata $class)
     {
         parent::__construct($em, $class);
-        Type::addType('schoolLevel', 'Data\enums\schoolLevel');
+        Type::addType('schoolLevel', 'App\Data\Enums\schoolLevel');
     }
     public function addChild(int $childId, int $parentId, string $schoolLevel = null){
         $child = new Child($childId);
-        $child->setChildSchoolLevel((new schoolLevel())->get($schoolLevel));
+        if(isset($schoolLevel)){
+            $child->setChildSchoolLevel((new schoolLevel())->get($schoolLevel));
+        }
         $child->setParentId($parentId);
         $this->getEntityManager()->persist($child);
         $this->getEntityManager()->flush();

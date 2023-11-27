@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use Core\Controller\AbstractController;
-use Data\Organize;
+use App\Data\Organize;
 
-use Data\Propose;
-use Data\Staff;
-use Data\User;
+use App\Data\Propose;
+use App\Data\Staff;
+use App\Data\User;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

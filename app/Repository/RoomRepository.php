@@ -1,9 +1,9 @@
 <?php
 
-namespace repository;
+namespace App\Repository;
 
-use Data\Enums\roomType;
-use Data\Room;
+use App\Data\Enums\roomType;
+use App\Data\Room;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,7 +21,7 @@ class RoomRepository extends EntityRepository
     public function __construct(EntityManagerInterface $em, ClassMetadata $class)
     {
         parent::__construct($em, $class);
-        Type::addType('roomType', 'Data\enums\roomType');
+        Type::addType('roomType', 'App\Data\Enums\roomType');
     }
 
     public function addRoom(string $name, int $floor, int $number, string $type, int $capacity, int $building_id){
@@ -36,7 +36,7 @@ class RoomRepository extends EntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function getRoomWithId(int $id):Room{
+    public function getRoomWithId(int $id):Room|null{
         return $this->find($id);
     }
 

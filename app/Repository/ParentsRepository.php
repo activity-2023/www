@@ -1,8 +1,8 @@
 <?php
 
-namespace repository;
+namespace App\Repository;
 
-use Data\Parents;
+use App\Data\Parents;
 use Doctrine\ORM\EntityRepository;
 
 /**

@@ -1,8 +1,8 @@
 <?php
 
-namespace repository;
+namespace App\Repository;
 
-use Data\Participate;
+use App\Data\Participate;
 use Doctrine\ORM\EntityRepository;
 
 /**

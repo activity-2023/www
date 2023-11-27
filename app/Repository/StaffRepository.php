@@ -1,9 +1,9 @@
 <?php
 
-namespace repository;
+namespace App\Repository;
 
-use Data\Enums\contractType;
-use Data\Staff;
+use App\Data\Enums\contractType;
+use App\Data\Staff;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -20,7 +20,7 @@ class StaffRepository extends EntityRepository
     public function __construct(EntityManagerInterface $em, ClassMetadata $class)
     {
         parent::__construct($em, $class);
-        Type::addType('contractType', 'Data\enums\contractType');
+        Type::addType('contractType', 'App\Data\Enums\contractType');
     }
 
     public function addStaff(int $staffId, string $email, string $phone, string $contractType){

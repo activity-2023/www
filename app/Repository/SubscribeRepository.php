@@ -1,8 +1,8 @@
 <?php
 
-namespace repository;
+namespace App\Repository;
 
-use Data\Subscribe;
+use App\Data\Subscribe;
 use Doctrine\ORM\EntityRepository;
 
 /**

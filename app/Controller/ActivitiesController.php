@@ -3,8 +3,8 @@
 namespace  App\Controller;
 
 use Core\Controller\AbstractController;
-use Data\Activity;
-use Data\Propose;
+use App\Data\Activity;
+use App\Data\Propose;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace repository;
+namespace App\Repository;
 
-use Data\InternalStaff;
+use App\Data\InternalStaff;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
@@ -19,7 +19,7 @@ class InternalStaffRepository extends EntityRepository
     public function __construct(EntityManagerInterface $em, ClassMetadata $class)
     {
         parent::__construct($em, $class);
-        Type::addType('staffFunction', 'Data\enums\staffFunction');
+        Type::addType('staffFunction', 'App\Data\Enums\staffFunction');
 
     }
 
