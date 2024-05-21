@@ -1,13 +1,9 @@
 {
-    "name": "activity/webapp",
+    "name": "activity/www",
+    "description": "Activity Web Server est la partie web du projet Activity. Elle consiste en une application web permettant la gestion de planning et de réservation.",
     "type": "project",
+    "homepage": "https://github.com/activity-2023/www",
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "App\\": "app/",
-            "Core\\": "core/"
-        }
-    },
     "authors": [
         {
             "name": "Dania OULKADI",
@@ -29,5 +25,11 @@
         "slim/php-view": "^3.2",
         "bryanjhv/slim-session": "^4.1",
         "doctrine/orm": "^3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Core\\": "core/"
+        }
     }
 }
