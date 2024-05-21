@@ -1,0 +1,28 @@
+version: 2
+updates:
+  - package-ecosystem: composer
+    directory: /
+    schedule:
+      interval: monthly
+    reviewers:
+      - "gzirysz"
+    assignees:
+      - "gzirysz"
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: monthly
+    reviewers:
+      - "gzirysz"
+    assignees:
+      - "gzirysz"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    reviewers:
+      - "gzirysz"
+    assignees:
+      - "gzirysz"
