@@ -25,9 +25,9 @@
         "slim/twig-view": "^3.3",
         "slim/http": "^0.4.0",
         "doctrine/dbal": "^3.7",
-        "doctrine/orm": "*",
         "symfony/cache": "^5.4",
         "slim/php-view": "^3.2",
-        "bryanjhv/slim-session": "^4.1"
+        "bryanjhv/slim-session": "^4.1",
+        "doctrine/orm": "^3.1"
     }
 }
