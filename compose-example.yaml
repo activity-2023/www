@@ -1,0 +1,22 @@
+services:
+  aws:
+    image: aws:latest
+    container_name: activity-web-server
+    ports:
+      - "80:80"
+    depends_on:
+      - adb
+
+  adb:
+    image: postgres:latest
+    container_name: activity-database
+    environment:
+      POSTGRES_USER: 'activity'
+      POSTGRES_PASSWORD: 'activity'
+    volumes:
+      - 'adb_data:/var/lib/postgresql/data'
+      - './initdb.sql:/docker-entrypoint-initdb.d/initdb.sql'
+
+volumes:
+  adb_data:
+    driver: local
