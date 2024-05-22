@@ -9,39 +9,26 @@ use Doctrine\ORM\ORMSetup;
 use Exception;
 
 class Bootstrap{
-    private $dbName;
+    private string $dbName = 'activity';
 
-    private $user;
+    private string $user;
 
-    private $password;
+    private string $password;
 
-    private $host;
+    private string $host;
 
-    private $driver;
+    private string $driver = 'pgsql';
 
-    private $port;
+    private string $port;
 
-    /**
-     * @param string $dbName
-     * @param string $user
-     * @param string $password
-     * @param string $host
-     * @param string $driver
-     * @param string $port
-     */
-    public function __construct(string $dbName ='projet', string $user = 'dania',
-                                string $password = '000', string $host = 'localhost',
-                                string $driver = 'pgsql', string $port = '9876'){
-        $this->dbName = $dbName;
-        $this->user = $user;
-        $this->password = $password;
-        $this->host = $host;
-        $this->driver = $driver;
-        $this->port = $port;
+    public function __construct() {
+        $this->user = getenv('DB_USER');
+        $this->password = getenv('DB_PASSWORD');
+        $this->host = getenv('DB_HOST');
+        $this->port = getenv('DB_PORT');
     }
 
     public function initConnection(): ?EntityManager{
-
         $config = ORMSetup::createAttributeMetadataConfiguration(
             paths: array(__DIR__ . "/../../Data/"),
             isDevMode: true,
@@ -63,7 +50,6 @@ class Bootstrap{
         }
         return $entityManager ?? Null;
     }
-
-    }
+}
 
 
